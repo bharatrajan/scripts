@@ -1,0 +1,276 @@
+export PATH=/opt/CollabNet_Subversion/bin:/opt/weblogic/wl10.3.2/modules/org.apache.ant_1.7.0/bin/:~/bin/:$PATH
+export JAVA_HOME=/opt/java/jrockit/32_bit/jrmc-4.0.1-1.6.0_20/
+export GREP_OPTIONS="-r --exclude=\.svn\\"
+
+export FULLCNAME=$(host -t RP `hostname` | sed 's/ /\n/g' | tail -1 | sed 's/.$//')
+export CNAME=$(host -t RP `hostname` | sed 's/ /\n/g' | tail -1 | sed 's/\..*//')
+export HOST=`hostname | cut -d. -f1`
+export PATH=$PATH:$JAVA_HOME/bin
+
+TZ="America/Chicago"
+export TZ
+
+if [[ $HOST == *je* ]]
+then
+    #PS1="[\e[1;32m\u\e[m@\e[1;32m$CNAME:\e[0;32m\w\e[m]$ "
+    PS1="[\e[1;32m\u\e[m@\e[1;32m$CNAME\e[0;32m\e[m]$ "
+    #PS1="[\[\e[1;32m\u\[\e[m@\[\e[1;32m$CNAME:\[\e[0;32m\w\[\e[m]$ "
+
+else
+	PS1="[\e[1;32m\u\e[m@\e[1;32m\h:\e[0;32m\e[m]$ "
+	
+fi;
+export TERM=xterm-color
+
+if [ -d /opt/oracle ]; then
+        if [ -d /opt/oracle/product/9.2.0 ]; then
+                export ORACLE_HOME=/opt/oracle/product/9.2.0
+        elif [ -d /opt/oracle/$HOST/product/9.2.0 ]; then
+                export ORACLE_HOME=/opt/oracle/$HOST/product/9.2.0
+        fi;
+        if [ $HOSTNAME = ssodev1.idev.fedex.com ]; then
+                export ORACLE_SID=mkting
+                DBUSER=marketquery
+                DBPASSWD=marketquery
+        else
+                export ORACLE_SID=myfedex1
+                DBUSER=F876718
+                DBPASSWD=F876718
+        fi;
+        if [ -f /opt/oracle/.oraenv9i ]; then
+                source /opt/oracle/.oraenv9i
+        fi;
+        export PATH=$PATH:$ORACLE_HOME/bin
+        alias sql='sqlplus $DBUSER/$DBPASSWD@$ORACLE_SID'
+fi;
+
+set -o vi
+export EDITOR=vim
+setterm -blength 0
+alias rmwosvn='rm -rf ~/cxs/usrc/1570/USRC1570/USRC.WITHOUT.SVN/build/* ~/builds/USRC1550/USRC1570..USRC.WITHOUT.SVN/USRC1570..USRC.WITHOUT.SVN-*'
+alias 1610='cd ~/cxs/usrc/1610/USRC1610/'
+alias rm='rm -Rf'
+alias vib='vi .bashrc'
+alias ll='ls -laF'
+alias ltr='ls -ltr'
+alias home='cd $HOME'
+alias dir='ls -laF'
+alias ls='ls -F'
+alias sl='ls -F'
+alias diff='diff -r --exclude=".svn"'
+alias vi='vim'
+alias c='clear'
+alias cls='clear'
+alias clr='clear'
+alias cd..='cd ..'
+alias ..='cd ..'
+alias ..2='cd ../..'
+alias ..3='cd ../../..'
+alias ..4='cd ../../../..'
+alias ..5='cd ../../../../..'
+alias .='pwd'
+alias cname='echo $FULLCNAME'
+alias h='history | tail -40 | more'
+alias ns='nslookup'
+alias nsh='nslookup $FULLCNAME'
+alias psf='ps -fu'
+alias s='sudo su - '
+alias cts='sudo -u fcladmin /opt/fedex/cfgmgt/wlctl fcladmin-web '
+alias oadr='sudo -u oadr /opt/fedex/cfgmgt/wlctl oadr-app '
+alias wpor='sudo -u wpor /opt/fedex/cfgmgt/wlctl wpor-web '
+alias feda='sudo -u feda'
+alias widm='sudo -u widm /opt/fedex/cfgmgt/wlctl widm-app'
+alias fcas='sudo -u fcas /opt/fedex/cfgmgt/wlctl fcas-app'
+if [[ $CNAME == *fcts* ]]
+then
+	alias tln='tail -250f /var/fedex/fcladmin-web/logs/nohup.out'
+	alias tlw='tail -50f /var/fedex/fcladmin-web/logs/weblogic.log'
+elif [[ $CNAME == *oadr* ]]
+then
+	alias testcase = cd /var/tmp/oadr_testcases
+        alias tln='tail -250f /var/fedex/oadr-app/logs/nohup.out'
+        alias vln='vi /var/fedex/oadr-app/logs/nohup.out'
+	alias tlw='tail -50f /var/fedex/oadr-app/logs/weblogic.log'
+        alias vlw='vi /var/fedex/oadr-app/logs/weblogic.log'
+        alias tlocal='tail -50f /var/log/local/local5'
+        alias vlocal='vi /var/log/local/local5'
+elif [[ $CNAME == *feda* ]]
+then
+    alias tln='tail -50f /var/fedex/feda-app/server.log'
+elif [[ $CNAME == *fcla* ]]
+then
+    alias tlocal='tail -50f /var/log/local/local5'
+    alias vlocal='vi /var/log/local/local5'
+elif [[ $CNAME == *wpor* ]]
+then
+    alias tln='tail -250f /var/fedex/wpor-web/logs/nohup.out'
+elif [[ $CNAME == *widm* ]]
+then
+    alias mlw='more /var/ca/widm-app/logs/$CNAME.idev.fedex.com.log'
+    alias mln='more /var/ca/widm-app/logs/nohup.out'
+    alias tln='tail -f /var/ca/widm-app/logs/nohup.out'
+    alias tlw='tail -f /var/ca/widm-app/logs/$CNAME.idev.fedex.com.log'
+    alias vln='vi -f /var/ca/widm-app/logs/nohup.out'
+    alias vlw='vi /var/ca/widm-app/logs/$CNAME.idev.fedex.com.log'
+    alias startwidm='sudo -u widm /opt/fedex/cfgmgt/wlctl widm-app startmanaged; sleep 1; tail -f /var/ca/widm-app/logs/nohup.out'
+    alias stopwidm='sudo -u widm /opt/fedex/cfgmgt/wlctl widm-app stopManagedServer; tail -f /var/ca/widm-app/logs/nohup.out; ps -fu widm'	
+elif [[ $CNAME == *usrc* ]]
+then
+        alias tlog='tail -250f /var/fedex/usrc-app/userCal.log'
+        alias vlog='vi /var/fedex/usrc-app/userCal.log'
+        alias ttrlog='tail -250f /var/fedex/usrc-app/userCalTrans.log'
+        alias vtrlog='vi /var/fedex/usrc-app/userCalTrans.log'
+        alias vln='vi /var/fedex/usrc-app/logs/us*'
+	alias tln='tail -250f /var/fedex/usrc-app/logs/us*'
+elif [[ $CNAME == *fcas* ]]
+then
+    alias tln='tail -f /var/fedex/fcas-app/logs/nohup.out'
+fi
+
+alias tl5='tail -50f /var/log/local/local5'
+
+alias sh='ssh'
+alias snv='svn'
+alias clea='clean'
+
+alias vibash='vi ~/.bashrc'
+alias sbc='source ~/.bashrc'
+alias sag3='ssh br876718@sagcfedcwl01.inf.fedex.com'
+alias sag2='ssh br876718@sagcfedcwl02.inf.fedex.com'
+alias sag1='ssh br876718@sagcfwtcl01.inf.fedex.com'
+
+alias rmwfcl='rm -rf $1 tmp/ bin/'
+
+alias how='cat docs/install.txt'
+alias how2='cat docs/increment.txt'
+
+alias smpw='head -1 /opt/ca/wstm-app/current/cfg/siteminder/Level_Properties/level.properties'
+
+alias bc='bc -l'
+alias idmL1pw='echo 90A9B71955D08446512C971783F42A004D86911FC547D9C8CCECAAF5D8AFF1BF'
+alias idmL2pw='echo A5F118CC14040FD7AA637DCA8AFFACB57C88257D887661477B6733EBDC56EB6E'
+alias idmL3pw='echo A5F118CC14040FD7AA637DCA8AFFACB57C88257D887661477B6733EBDC56EB6E'
+alias netstat='netstat -na |grep LIST'
+alias smpw='head -1 /opt/ca/wstm-app/current/cfg/siteminder/Level_Properties/level.properties'
+
+
+alias svnwsch1430='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_search/tags/R-WSCH1430/'
+alias svnregc1510='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_onlineacctdscntreg/branches/RB-OADR1510/REGC/'
+alias svnoadr1510='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_onlineacctdscntreg/branches/RB-OADR1510/oadrserver/'
+alias svnoadr1430='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_onlineacctdscntreg/branches/RB-OADR1430/oadrserver/'
+alias svnctstrunk='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_custtechsupporttool/trunk'
+alias svncts1310branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_custtechsupporttool/branches/RB-CTS1310/'
+alias svncts1330branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_custtechsupporttool/branches/RB-CTS1330/'
+alias svncts1340branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_custtechsupporttool/branches/RB-CTS1340/'
+alias svncts1370branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_custtechsupporttool/branches/RB-CTS1370/'
+alias svnwportrunk='svn checkout--username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_webportal/trunk'
+alias svnwpor1300branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_webportal/branches/RB-WPOR1300/'
+alias svnwpor1310branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_webportal/branches/RB-WPOR1310/'
+alias svnwpor1311branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_webportal/branches/RB-WPOR1311/'
+alias svnwpor1370branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_webportal/branches/RB-WPOR1370/'
+alias svnwpor1430branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_webportal/branches/RB-WPOR1430/'
+alias svnwpor1440branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_webportal/branches/RB-WPOR1440/'
+alias svnwfcltrunk='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_commonloginclient/trunk/fclclient'
+alias svnwfcl1260branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_commonloginclient/branches/RB-WFCL1260/'
+alias svnwfcl1271branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_commonloginclient/branches/RB-WFCL1271/'
+alias svnwfcl1272branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_commonloginclient/branches/RB-WFCL1272/fclclient'
+alias svnwfcl1310branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_commonloginclient/branches/RB-WFCL1310/fclclient'
+alias svnwfcl1311branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_commonloginclient/branches/RB-WFCL1311/fclclient'
+alias svnwfcl1302branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_commonloginclient/branches/RB-WFCL1302/fclclient'
+alias svnwfcl1330branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_commonloginclient/branches/RB-WFCL1330/fclclient'
+alias svnwfcl1370branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_commonloginclient/branches/RB-WFCL1370/fclclient'
+alias svnwfcl1390branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_commonloginclient/branches/RB-WFCL1390/fclclient'
+alias svnwfcl1490branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_commonloginclient/branches/RB-WFCL1490/fclclient'
+alias svnwfcl1370myprofile='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_commonloginclient/branches/RB-WFCL1370/MyProfile'
+alias svnwfcl1380myprofile='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_commonloginclient/branches/RB-WFCL1380/MyProfile'
+alias svnwfcl1390myprofile='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_commonloginclient/branches/RB-WFCL1390/MyProfile'
+alias svnwfcl1400myprofile='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_commonloginclient/branches/RB-WFCL1400/MyProfile'
+alias svnwfcl1430myprofile='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_commonloginclient/branches/RB-WFCL1430/MyProfile'
+alias svnfclatrunk='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_fcl_api/trunk'
+alias svnoadrtrunk='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_onlineacctdscntreg/trunk/oadrserver'
+alias svnfcla9300branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_fcl_api/branches/RB-FCLA9300/'
+alias svnfcla1270branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_fcl_api/branches/RB-FCLA1270/'
+alias svnfcla1301branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_fcl_api/branches/RB-FCLA1301/'
+alias svnfcla1330branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_fcl_api/branches/RB-FCLA1330/'
+alias svnfcla1331branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_fcl_api/branches/RB-FCLA1331/'
+alias svnfcla1370branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_fcl_api/branches/RB-FCLA1370/'
+alias svnfcla1430branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_fcl_api/branches/RB-FCLA1430/'
+alias svnfedatrunk='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_federation/trunk'
+alias svnfeda1370branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_federation/branches/RB-FEDA1370/'
+alias svnfeda1390branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_federation/branches/RB-FEDA1390/'
+alias svnwidmtrunk='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_caidentitymanager/trunk'
+alias svnwidm1310branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_caidentitymanager/branches/RB-WIDM1310/'
+alias svnwidm1311branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_caidentitymanager/branches/RB-WIDM1311/'
+alias svnwidm1312branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_caidentitymanager/branches/RB-WIDM1312/'
+alias svnwidm1315branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_caidentitymanager/branches/RB-WIDM1315/'
+alias svnwidm1330branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_caidentitymanager/branches/RB-WIDM1330/'
+alias svnwidm1370branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_caidentitymanager/branches/RB-WIDM1370/'
+alias svnwidm1390branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_caidentitymanager/branches/RB-WIDM1390/'
+alias svnwidm1510branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_caidentitymanager/branches/RB-WIDM1510/'
+alias svnwidm1490branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_caidentitymanager/branches/RB-WIDM1490/'
+alias svnwstm1310branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_casiteminder/branches/RB-WSTM1310/'
+alias svnwstm1370branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_casiteminder/branches/RB-WSTM1370/'
+alias svnwstm1430branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_casiteminder/branches/RB-WSTM1430/'
+alias svnwstm1490branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_casiteminder/branches/RB-WSTM1490/'
+
+alias svnusrc1570branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_usercal/branches/RB-USRC1570-SEP14DL/'
+alias svnusrc1610branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_usercal/branches/RB-USRC1610-Jan15CL/'
+alias svnusrc1550branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_usercal/branches/RB-USRC1550-Jul14CL/'
+alias svnusrc1511branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_usercal/branches/RB-USRC1511-Mar14EL/'
+alias svnirpt1440branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_fedexshipmgrrpts/branches/RB-IRPT1440/'
+alias svnirpt1490branch='svn checkout --username 876718 https://svn1.prod.fedex.com/svn/repos/fedex_com_fedexshipmgrrpts/branches/RB-IRPT1490/'
+
+alias content='cd /opt/fedex/www/templates/components/messages/secure'
+alias alps='source ~/AlpsClient4/go.sh'
+clear
+
+function psg()
+{
+ps auwwx | grep $1
+}
+
+function f() 
+{
+find . -name "*$1*" -print
+}
+
+function fvi()
+{
+SEARCH=`find . -name "$1\.*" -print | grep -v .svn | grep -v dist | grep -v src_test`
+vi $SEARCH
+}
+
+function fvim()
+{
+find .  -regex "(.*$1\..*$) & (^((?!dist).*)$)" -print
+}
+
+function f2()
+{
+find . -regex ".*$1\.[^\.]*$" -print
+}
+
+function n2a()
+{
+native2ascii -encoding utf-8 $1 $1
+}
+
+function pdgrep()
+    {
+        ps auxwww | cut -c1-15,48- | grep $1 | grep -v grep | grep -v cut | sort | grep -v sort;
+    }
+
+function convert() {
+    ls 
+}
+function lookup()
+{
+host -t RP $1 | sed 's/ /\n/g' | tail -1 | sed 's/\..*//'
+}
+pasoadrfn()
+{	
+    OADRBOOT = ${ps -ef | grep -nri AdminServer}
+	echo $OADRBOOT
+}
+
+alias psoadr='pasoadrfn'
