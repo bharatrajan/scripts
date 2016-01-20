@@ -1,0 +1,75 @@
+
+
+TZ="America/Los_Angeles"
+export TZ
+
+if [[ $HOST == *je* ]]
+then
+    #PS1="[\e[1;32m\u\e[m@\e[1;32m$CNAME:\e[0;32m\w\e[m]$ "
+    PS1="[\e[1;32m\u\e[m@\e[1;32m$CNAME\e[0;32m\e[m]$ "
+    #PS1="[\[\e[1;32m\u\[\e[m@\[\e[1;32m$CNAME:\[\e[0;32m\w\[\e[m]$ "
+
+else
+	PS1="[\e[1;32m\u\e[m@\e[1;32m\h:\e[0;32m\e[m]$ "
+	
+fi;
+export TERM=xterm-color
+
+if [ -d /opt/oracle ]; then
+        if [ -d /opt/oracle/product/9.2.0 ]; then
+                export ORACLE_HOME=/opt/oracle/product/9.2.0
+        elif [ -d /opt/oracle/$HOST/product/9.2.0 ]; then
+                export ORACLE_HOME=/opt/oracle/$HOST/product/9.2.0
+        fi;
+        if [ $HOSTNAME = ssodev1.idev.fedex.com ]; then
+                export ORACLE_SID=mkting
+                DBUSER=marketquery
+                DBPASSWD=marketquery
+        else
+                export ORACLE_SID=myfedex1
+                DBUSER=F876718
+                DBPASSWD=F876718
+        fi;
+        if [ -f /opt/oracle/.oraenv9i ]; then
+                source /opt/oracle/.oraenv9i
+        fi;
+        export PATH=$PATH:$ORACLE_HOME/bin
+        alias sql='sqlplus $DBUSER/$DBPASSWD@$ORACLE_SID'
+fi;
+
+set -o vi
+export EDITOR=vim
+setterm -blength 0
+alias rm='rm -Rf'
+alias vib='vi .bashrc'
+alias ll='ls -laF'
+alias ltr='ls -ltr'
+alias home='cd $HOME'
+alias dir='ls -laF'
+alias ls='ls -F'
+alias sl='ls -F'
+alias diff='diff -r --exclude=".svn"'
+alias vi='vim'
+alias c='clear'
+alias cls='clear'
+alias clr='clear'
+alias cd..='cd ..'
+alias ..='cd ..'
+alias ..2='cd ../..'
+alias ..3='cd ../../..'
+alias ..4='cd ../../../..'
+alias ..5='cd ../../../../..'
+alias .='pwd'
+alias cname='echo $FULLCNAME'
+alias h='history | tail -40 | more'
+alias ns='nslookup'
+alias nsh='nslookup $FULLCNAME'
+alias psf='ps -fu'
+
+
+clear
+
+#local Stuff
+alias dev='cd ~/dev'
+alias proj='cd ~/dev/projects'
+alias scripts='cd ~/dev/scripts'
