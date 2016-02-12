@@ -1,4 +1,8 @@
-
+export FULLCNAME=$(host -t RP `hostname` | sed 's/ /\n/g' | tail -1 | sed 's/.$//')
+export CNAME=$(host -t RP `hostname` | sed 's/ /\n/g' | tail -1 | sed 's/\..*//')
+export HOST=`hostname | cut -d. -f1`
+export GOPATH=/Users/brajan003c/dev/projects/go
+#export PATH=/usr/local/go/bin:/usr/local/git/bin:$PATH
 
 TZ="America/Los_Angeles"
 export TZ
@@ -41,7 +45,8 @@ set -o vi
 export EDITOR=vim
 setterm -blength 0
 alias rm='rm -Rf'
-alias vib='vi .bashrc'
+alias vib='vi ~/.bashrc'
+alias vih='vi ~/.bash_history'
 alias ll='ls -laF'
 alias ltr='ls -ltr'
 alias home='cd $HOME'
@@ -65,11 +70,23 @@ alias h='history | tail -40 | more'
 alias ns='nslookup'
 alias nsh='nslookup $FULLCNAME'
 alias psf='ps -fu'
-
-
+alias sib='source ~/.bashrc'
+alias pib='scp -r ~/.bashrc brajan003c@adm11.csv.comcast.com:~/.bashr'
 clear
 
 #local Stuff
 alias dev='cd ~/dev'
 alias proj='cd ~/dev/projects'
 alias scripts='cd ~/dev/scripts'
+alias cdxrs='cd ~/dev/projects/go/src/github.comcast.com/XfinityRulesService/'
+alias cdva='cd ~/dev/projects/go/src/github.comcast.com/VariousArtists'
+
+
+alias adm11='ssh adm11.csv.comcast.com'
+
+#ssh -i ~/aws_csvadmin.pem centos@172.20.123.175
+#ssh -i ~/aws_csvadmin.pem centos@172.20.121.150
+#ssh -i ~/aws_csvadmin.pem centos@172.20.121.21
+
+export NVM_DIR="/Users/brajan003c/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
