@@ -28,11 +28,11 @@ if [ -d /opt/oracle ]; then
         if [ $HOSTNAME = ssodev1.idev.fedex.com ]; then
                 export ORACLE_SID=mkting
                 DBUSER=marketquery
-                DBPASSWD=marketquery
+                DBPASSWD=
         else
                 export ORACLE_SID=myfedex1
                 DBUSER=F876718
-                DBPASSWD=F876718
+                DBPASSWD=
         fi;
         if [ -f /opt/oracle/.oraenv9i ]; then
                 source /opt/oracle/.oraenv9i
