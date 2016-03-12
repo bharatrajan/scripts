@@ -2,7 +2,7 @@ export FULLCNAME=$(host -t RP `hostname` | sed 's/ /\n/g' | tail -1 | sed 's/.$/
 export CNAME=$(host -t RP `hostname` | sed 's/ /\n/g' | tail -1 | sed 's/\..*//')
 export HOST=`hostname | cut -d. -f1`
 export GOPATH=/Users/brajan003c/dev/projects/go
-#export PATH=/usr/local/go/bin:/usr/local/git/bin:$PATH
+#export PATH=/usr/local/go/bin:/usr/local/git/bin:/usr/local/Cellar/node/5.6.0/bin:$PATH
 
 TZ="America/Los_Angeles"
 export TZ
@@ -70,8 +70,11 @@ alias h='history | tail -40 | more'
 alias ns='nslookup'
 alias nsh='nslookup $FULLCNAME'
 alias psf='ps -fu'
+alias findword='find . -name "*.*" | xargs grep'
 alias sib='source ~/.bashrc'
 alias pib='scp -r ~/.bashrc brajan003c@adm11.csv.comcast.com:~/.bashr'
+alias cruise='git clone git@github.comcast.com:XfinityRulesService/cruise.git'
+alias cust='git clone git@github.comcast.com:XfinityRulesService/customer-portal.git'
 clear
 
 #local Stuff
