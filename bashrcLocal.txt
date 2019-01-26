@@ -1,10 +1,23 @@
 export FULLCNAME=$(host -t RP `hostname` | sed 's/ /\n/g' | tail -1 | sed 's/.$//')
 export CNAME=$(host -t RP `hostname` | sed 's/ /\n/g' | tail -1 | sed 's/\..*//')
 export HOST=`hostname | cut -d. -f1`
-#export GOPATH=/Users/brajan003c/dev/projects/go
-#export PATH=/usr/local/go/bin:/usr/local/git/bin:/usr/local/Cellar/node/5.6.0/bin:$PATH
+export ARTIFACTORY_USER="bharat.rajan"
+export ARTIFACTORY_PASSWORD="9P*R\"M>n[pA."
+export MAVEN_PASSWORD="Dwb,BS%uT2"
+export ARTIFACTORY_HOST="artifacts.dynguts.net"
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/
+export M2_HOME=/usr/local/apache-maven/apache-maven-3.6.0
+export M2=$M2_HOME/bin
+# export MAVEN_OPTS=-Xms256m -Xmx512m
+export PATH=/usr/local/sbin:/usr/local/go/bin:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/:/usr/local/apache-maven/apache-maven-3.6.0/bin:/usr/local/git/bin:/usr/local/bin:/usr/local/opt/node@8/bin:$PATH
+export GOPATH=/Users/bhrajan/go/src/
 
-TZ="America/Los_Angeles"
+# Python Virtual Env
+export WORKON_HOME=$HOME/Envs
+export PROJECT_HOME=$HOME/Workspace
+source /usr/local/bin/virtualenvwrapper.sh
+
+TZ="America/Chicago"
 export TZ
 
 if [[ $HOST == *je* ]]
@@ -18,32 +31,12 @@ else
 	
 fi;
 export TERM=xterm-color
-
-if [ -d /opt/oracle ]; then
-        if [ -d /opt/oracle/product/9.2.0 ]; then
-                export ORACLE_HOME=/opt/oracle/product/9.2.0
-        elif [ -d /opt/oracle/$HOST/product/9.2.0 ]; then
-                export ORACLE_HOME=/opt/oracle/$HOST/product/9.2.0
-        fi;
-        if [ $HOSTNAME = ssodev1.idev.fedex.com ]; then
-                export ORACLE_SID=mkting
-                DBUSER=marketquery
-                DBPASSWD=
-        else
-                export ORACLE_SID=myfedex1
-                DBUSER=F876718
-                DBPASSWD=
-        fi;
-        if [ -f /opt/oracle/.oraenv9i ]; then
-                source /opt/oracle/.oraenv9i
-        fi;
-        export PATH=$PATH:$ORACLE_HOME/bin
-        alias sql='sqlplus $DBUSER/$DBPASSWD@$ORACLE_SID'
-fi;
-
 set -o vi
 export EDITOR=vim
-setterm -blength 0
+#setterm -blength 0
+alias eclipse='/Applications/Eclipse.app/Contents/MacOS/eclipse -data . &'
+alias ovp_build='mvn clean install -e -s ~/.m2/settings.xml'
+alias ovp_run='java -jar ~/dev/bitbucket/ovp-api/healthchecks/target/ovp-api-1.0-SNAPSHOT.jar server ~/dev/bitbucket/ovp-api/healthchecks/config_sample.yml'
 alias rm='rm -Rf'
 alias vib='vi ~/.bashrc'
 alias vih='vi ~/.bash_history'
@@ -75,7 +68,16 @@ alias findword='find . -name "*.*" | xargs grep'
 clear
 
 #local Stuff
+alias ohcgit='git clone ssh://git@bitbucket.oci.oraclecorp.com:7999/ovp/healthchecks-ui.git && cd healthchecks-ui'
+alias killchrom='pkill -a -i "Google Chrome"'
+alias py='python'
 alias dev='cd ~/dev'
-
-export NVM_DIR="/Users/brajan003c/.nvm"
+alias getiic='git clone git@github.corp.dyndns.com:InternetIntelligence/ii_duplo.git'
+alias gitiic='git clone git@github.corp.dyndns.com:InternetIntelligence/ii_duplo.git'
+alias cdiic='cd ~/dev/github.corp.dyndns.com/InternetIntelligence'
+alias cdohc='cd ~/dev/bitbucket/healthchecks-ui'
+alias ocna='sudo /Users/bhrajan/ocna-vpn/start-vpnall'
+alias oci='/Users/bhrajan/bin/oci'
+alias bastion='ssh -i ~/.ssh/oci_bastion.priv ubuntu@129.146.69.51'
+export NVM_DIR="/Users/bhrajan/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
